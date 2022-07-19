@@ -7,11 +7,7 @@ pub fn create_empty() -> Vec<u8> {
 ///
 /// Applications often use buffers when serializing data to send over the network.
 pub fn create_buffer(count: usize) -> Vec<u8> {
-    let mut vec = create_empty();
-    for _ in 0..count {
-        vec.push(0);
-    }
-    vec
+    vec![0; count]
 }
 
 /// Create a vector containing the first five elements of the Fibonacci sequence.
