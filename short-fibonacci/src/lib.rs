@@ -15,17 +15,13 @@ pub fn create_buffer(count: usize) -> Vec<u8> {
 /// Fibonacci's sequence is the list of numbers where the next number is a sum of the previous two.
 /// Its first five elements are `1, 1, 2, 3, 5`.
 pub fn fibonacci() -> Vec<u8> {
-    let mut res: Vec<u8> = create_empty();
+    let mut res: Vec<u8> = create_buffer(5);
+    res[0] = 1;
+    res[1] = 1;
 
-    let mut sum;
-    let mut a = 0;
-    let mut b = 1;
-    for _i in 0..5 {
-        sum = a + b;
-        a = b;
-        b = sum;
-
-        res.push(a);
+    for i in 2..5 {
+        res[i] = res[i - 2] + res[i - 1]
     }
+
     res
 }
