@@ -14,3 +14,11 @@ Oxidizing my way through the track:
 * [x] [A Short Fibonacci Sequence](https://exercism.org/tracks/rust/exercises/short-fibonacci) - [*solution*](./short-fibonacci)
 * [x] [Sublist](https://exercism.org/tracks/rust/exercises/sublist) - [*solution*](./sublist)
 * [x] [Tournament](https://exercism.org/tracks/rust/exercises/tournament) - [*solution*](./tournament)
+
+
+## Solutions
+
+Run the tests for each output to confirm the solutions. E.g, to test the [*Tournament*](./tournament) solution:
+```
+$ cd tournament && cargo test
+```
