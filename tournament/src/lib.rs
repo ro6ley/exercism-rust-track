@@ -24,15 +24,9 @@ impl Team {
 
     pub fn handle_outcome(&mut self, outcome: Outcome) {
         match outcome {
-            Outcome::Win => {
-                self.wins += 1;
-            }
-            Outcome::Draw => {
-                self.draws += 1;
-            }
-            Outcome::Loss => {
-                self.losses += 1;
-            }
+            Outcome::Win => self.wins += 1,
+            Outcome::Draw => self.draws += 1,
+            Outcome::Loss => self.losses += 1,
         }
     }
 
