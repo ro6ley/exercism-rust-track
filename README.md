@@ -1,4 +1,4 @@
-# exercism-rust-track
+# Learning Rust via Exercism
 
 Oxidizing my way through the track:
 * [x] [Lucian's Luscious Lasagna](https://exercism.org/tracks/rust/exercises/lucians-luscious-lasagna) - [*solution*](./lucians-luscious-lasagna/)
