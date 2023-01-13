@@ -101,7 +101,6 @@ pub fn tally(match_results: &str) -> String {
     });
 
     let mut final_results = results.into_values().collect::<Vec<Team>>();
-
     final_results.sort_by(|a, b| a.name.cmp(&b.name));
     final_results.sort_by(|a, b| b.points.cmp(&a.points));
 
@@ -111,6 +110,5 @@ pub fn tally(match_results: &str) -> String {
         output_str.push_str(&fr.to_string());
     });
 
-    println!("{}", output_str);
     output_str
 }
