@@ -1,13 +1,12 @@
 use std::collections::HashMap;
 use std::str::FromStr;
 use std::string::ToString;
+use std::ops::Neg;
 
 const HEADER: &str = "Team                           | MP |  W |  D |  L |  P";
 
 struct Team {
     name: String,
-    matches: u16,
-    points: u16,
     wins: u16,
     draws: u16,
     losses: u16,
@@ -17,29 +16,32 @@ impl Team {
     pub fn new(name: &str) -> Self {
         Self {
             name: name.to_string(),
-            matches: 0,
-            points: 0,
             wins: 0,
             draws: 0,
             losses: 0,
         }
     }
 
-    pub fn win(&mut self) {
-        self.matches += 1;
-        self.wins += 1;
-        self.points += 3;
+    pub fn handle_outcome(&mut self, outcome: Outcome) {
+        match outcome {
+            Outcome::Win => {
+                self.wins += 1;
+            }
+            Outcome::Draw => {
+                self.draws += 1;
+            }
+            Outcome::Loss => {
+                self.losses += 1;
+            }
+        }
     }
 
-    pub fn draw(&mut self) {
-        self.matches += 1;
-        self.draws += 1;
-        self.points += 1;
+    pub fn matches(&self) -> u16 {
+        self.wins + self.losses + self.draws
     }
 
-    pub fn loss(&mut self) {
-        self.matches += 1;
-        self.losses += 1;
+    pub fn points(&self) -> u16 {
+        (self.wins * 3) + self.draws
     }
 }
 
@@ -47,15 +49,28 @@ impl ToString for Team {
     fn to_string(&self) -> String {
         format!(
             "{: <30} | {: >2} | {: >2} | {: >2} | {: >2} | {: >2}",
-            self.name, self.matches, self.wins, self.draws, self.losses, self.points
+            self.name, self.matches(), self.wins, self.draws, self.losses, self.points()
         )
     }
 }
 
+#[derive(Copy, Clone)]
 enum Outcome {
     Win,
     Draw,
     Loss,
+}
+
+impl Neg for Outcome {
+    type Output = Self;
+
+    fn neg(self) -> Self::Output {
+        match self {
+            Outcome::Win => Outcome::Loss,
+            Outcome::Draw => Outcome::Draw,
+            Outcome::Loss => Outcome::Win,
+        }
+    }
 }
 
 impl FromStr for Outcome {
@@ -81,20 +96,8 @@ pub fn tally(match_results: &str) -> String {
 
         match Outcome::from_str(frags[2]) {
             Ok(outcome) => {
-                match outcome {
-                    Outcome::Win => {
-                        results.entry(frags[0]).and_modify(|t| t.win());
-                        results.entry(frags[1]).and_modify(|t| t.loss());
-                    }
-                    Outcome::Draw => {
-                        results.entry(frags[0]).and_modify(|t| t.draw());
-                        results.entry(frags[1]).and_modify(|t| t.draw());
-                    }
-                    Outcome::Loss => {
-                        results.entry(frags[0]).and_modify(|t| t.loss());
-                        results.entry(frags[1]).and_modify(|t| t.win());
-                    }
-                };
+                results.entry(frags[0]).and_modify(|t| t.handle_outcome(outcome));
+                results.entry(frags[1]).and_modify(|t| t.handle_outcome(-outcome));
             }
             Err(err) => err,
         };
@@ -102,7 +105,7 @@ pub fn tally(match_results: &str) -> String {
 
     let mut final_results = results.into_values().collect::<Vec<Team>>();
     final_results.sort_by(|a, b| a.name.cmp(&b.name));
-    final_results.sort_by(|a, b| b.points.cmp(&a.points));
+    final_results.sort_by(|a, b| b.points().cmp(&a.points()));
 
     let mut output_str: String = HEADER.to_string();
     final_results.iter().for_each(|fr| {
