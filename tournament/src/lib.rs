@@ -1,7 +1,7 @@
 use std::collections::HashMap;
+use std::ops::Neg;
 use std::str::FromStr;
 use std::string::ToString;
-use std::ops::Neg;
 
 const HEADER: &str = "Team                           | MP |  W |  D |  L |  P";
 
@@ -49,7 +49,12 @@ impl ToString for Team {
     fn to_string(&self) -> String {
         format!(
             "{: <30} | {: >2} | {: >2} | {: >2} | {: >2} | {: >2}",
-            self.name, self.matches(), self.wins, self.draws, self.losses, self.points()
+            self.name,
+            self.matches(),
+            self.wins,
+            self.draws,
+            self.losses,
+            self.points()
         )
     }
 }
@@ -96,8 +101,12 @@ pub fn tally(match_results: &str) -> String {
 
         match Outcome::from_str(frags[2]) {
             Ok(outcome) => {
-                results.entry(frags[0]).and_modify(|t| t.handle_outcome(outcome));
-                results.entry(frags[1]).and_modify(|t| t.handle_outcome(-outcome));
+                results
+                    .entry(frags[0])
+                    .and_modify(|t| t.handle_outcome(outcome));
+                results
+                    .entry(frags[1])
+                    .and_modify(|t| t.handle_outcome(-outcome));
             }
             Err(err) => err,
         };
