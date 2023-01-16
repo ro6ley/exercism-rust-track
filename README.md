@@ -14,6 +14,7 @@ Oxidizing my way through the track:
 * [x] [A Short Fibonacci Sequence](https://exercism.org/tracks/rust/exercises/short-fibonacci) - [*solution*](./short-fibonacci)
 * [x] [Sublist](https://exercism.org/tracks/rust/exercises/sublist) - [*solution*](./sublist)
 * [x] [Tournament](https://exercism.org/tracks/rust/exercises/tournament) - [*solution*](./tournament)
+* [x] [Gigasecond](https://exercism.org/tracks/rust/exercises/gigasecond) - [*solution*](./gigasecond)
 
 
 ## Solutions
